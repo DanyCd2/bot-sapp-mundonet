@@ -1,0 +1,23 @@
+2025/03/31-20:28:02.818 3f8 Reusing MANIFEST C:\Users\pc\bot-megas\session\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2025/03/31-20:28:02.819 3f8 Recovering log #144
+2025/03/31-20:28:03.008 3f8 Reusing old log C:\Users\pc\bot-megas\session\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/000144.log 
+2025/03/31-20:28:03.008 3f8 Delete type=2 #141
+2025/03/31-20:28:03.008 3f8 Delete type=2 #142
+2025/03/31-20:28:03.008 3f8 Delete type=2 #143
+2025/03/31-20:28:03.008 3f8 Delete type=2 #145
+2025/03/31-20:28:05.691 3f8 Level-0 table #152: started
+2025/03/31-20:28:05.737 3f8 Level-0 table #152: 1362937 bytes OK
+2025/03/31-20:28:05.738 3f8 Delete type=0 #144
+2025/03/31-20:28:05.739 3f8 Manual compaction at level-0 from '\x00\x1e\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x1f\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/03/31-20:28:09.298 258 Compacting 1@1 + 4@2 files
+2025/03/31-20:28:09.531 258 Generated table #153@1: 62138 keys, 2230083 bytes
+2025/03/31-20:28:09.649 258 Generated table #154@1: 21664 keys, 2179756 bytes
+2025/03/31-20:28:09.810 258 Generated table #155@1: 51917 keys, 2223219 bytes
+2025/03/31-20:28:09.829 258 Generated table #156@1: 10807 keys, 227004 bytes
+2025/03/31-20:28:09.829 258 Compacted 1@1 + 4@2 files => 6860062 bytes
+2025/03/31-20:28:09.830 258 compacted to: files[ 0 0 4 0 0 0 0 ]
+2025/03/31-20:28:09.830 258 Delete type=2 #146
+2025/03/31-20:28:09.831 258 Delete type=2 #147
+2025/03/31-20:28:09.831 258 Delete type=2 #148
+2025/03/31-20:28:09.831 258 Delete type=2 #149
+2025/03/31-20:28:09.831 258 Delete type=2 #152
