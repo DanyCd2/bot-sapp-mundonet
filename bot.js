@@ -1,21 +1,21 @@
 // ====================== CONFIGURAÇÕES INICIAIS ======================
-const { Client, LocalAuth, MessageMedia } = require('whatsapp-web.js');
+const { Client, MessageMedia } = require('whatsapp-web.js');
 const fs = require('fs');
 const path = require('path');
 const qrcode = require('qrcode-terminal');
 const express = require('express');
+const { createClient } = require('@supabase/supabase-js');
+
+// Configurações do Supabase (substitua com suas credenciais)
+const supabaseUrl = 'https://njncdjvyanuhcpwpbjly.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5qbmNkanZ5YW51aGNwd3Biamx5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM0NTIxMTEsImV4cCI6MjA1OTAyODExMX0.Pd7hFzQDd4TMPfGzKu9MASXm3mM1SzMGMyqEXbAOwII';
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Configurações
-const clientesFile = path.join(__dirname, 'clientes.json');
 const ADMIN_NUMBER = '+258855337491'; // SEU NÚMERO (com código do país)
 const imagePath = path.join(__dirname, 'p.png'); // Imagem da tabela de pacotes
-const SESSION_DIR = process.env.SESSION_DIR || './session';
 
 // Cache e controle de usuários
-const CACHE = {
-    clientes: null,
-    lastClientesUpdate: 0
-};
 const users = {};
 
 // ====================== FUNÇÕES AUXILIARES ======================
@@ -26,92 +26,86 @@ function log(message) {
     fs.appendFileSync('bot.log', `[${timestamp}] ${message}\n`);
 }
 
-// Função para salvar clientes (ATUALIZADA)
-function salvarCliente(nome, numero) {
-    let clientes = [];
-
-    if (fs.existsSync(clientesFile)) {
-        try {
-            const fileContent = fs.readFileSync(clientesFile, 'utf-8');
-            clientes = JSON.parse(fileContent);
-            
-            if (!Array.isArray(clientes)) {
-                log("Arquivo de clientes corrompido. Recriando...");
-                clientes = [];
-            }
-        } catch (error) {
-            log("Erro ao ler clientes.json. Recriando...");
-            clientes = [];
-        }
-    }
-
-    const clienteJaExiste = clientes.some(cliente => cliente.numero === numero);
+// Função para salvar clientes (ATUALIZADA para Supabase)
+async function salvarCliente(nome, numero) {
+    const { error } = await supabase
+        .from('clientes')
+        .upsert({ nome, numero });
     
-    if (!clienteJaExiste) {
-        clientes.push({
-            nome,
-            numero,
-            data: new Date().toISOString()
-        });
-        fs.writeFileSync(clientesFile, JSON.stringify(clientes, null, 2));
-        CACHE.clientes = clientes;
-        CACHE.lastClientesUpdate = Date.now();
-        log(`Novo cliente salvo: ${nome} (${numero})`);
+    if (error) {
+        log(`Erro ao salvar cliente: ${error.message}`);
+        return false;
     }
+    log(`Novo cliente salvo: ${nome} (${numero})`);
+    return true;
 }
 
-// Função para filtrar clientes por período (ATUALIZADA)
-function filtrarClientes(periodo) {
-    // Atualiza cache se passou mais de 5 minutos ou não existe
-    if (!CACHE.clientes || Date.now() - CACHE.lastClientesUpdate > 300000) {
-        if (!fs.existsSync(clientesFile)) {
-            CACHE.clientes = [];
-            return [];
-        }
-        try {
-            CACHE.clientes = JSON.parse(fs.readFileSync(clientesFile, 'utf-8'));
-            CACHE.lastClientesUpdate = Date.now();
-        } catch (error) {
-            CACHE.clientes = [];
-        }
-    }
-
-    const hoje = new Date();
-    const umDia = 24 * 60 * 60 * 1000;
-
-    return CACHE.clientes.filter(cliente => {
-        const dataCliente = new Date(cliente.data);
-        const diferencaDias = Math.floor((hoje - dataCliente) / umDia);
-
+// Função para filtrar clientes por período (ATUALIZADA para Supabase)
+async function filtrarClientes(periodo) {
+    let query = supabase.from('clientes').select('*');
+    
+    if (periodo !== 'todos') {
+        const dateFilter = new Date();
+        
         switch (periodo) {
-            case 'hoje': return diferencaDias === 0;
-            case 'ontem': return diferencaDias === 1;
-            case 'semana': return diferencaDias <= 7;
-            case 'mes': return diferencaDias <= 30;
-            case '3meses': return diferencaDias <= 90;
-            case '6meses': return diferencaDias <= 180;
-            case '1ano': return diferencaDias <= 365;
-            default: return true;
+            case 'hoje': dateFilter.setDate(dateFilter.getDate() - 1); break;
+            case 'ontem': dateFilter.setDate(dateFilter.getDate() - 2); break;
+            case 'semana': dateFilter.setDate(dateFilter.getDate() - 7); break;
+            case 'mes': dateFilter.setMonth(dateFilter.getMonth() - 1); break;
+            case '3meses': dateFilter.setMonth(dateFilter.getMonth() - 3); break;
+            case '6meses': dateFilter.setMonth(dateFilter.getMonth() - 6); break;
+            case '1ano': dateFilter.setFullYear(dateFilter.getFullYear() - 1); break;
         }
-    });
+        
+        query = query.gte('data', dateFilter.toISOString());
+    }
+    
+    const { data, error } = await query;
+    
+    if (error) {
+        log(`Erro ao buscar clientes: ${error.message}`);
+        return [];
+    }
+    
+    return data;
 }
 
 // ====================== CONFIGURAÇÃO DO BOT ======================
 const client = new Client({
-    authStrategy: new LocalAuth({ dataPath: './session' }),
-    puppeteer: { headless: true, args: ['--no-sandbox'] }
+    authStrategy: {
+        async restore() {
+            const { data } = await supabase
+                .from('whatsapp_sessions')
+                .select('session_data')
+                .eq('id', 'primary');
+            return data?.[0]?.session_data || null;
+        },
+        async save(session) {
+            await supabase
+                .from('whatsapp_sessions')
+                .upsert({ id: 'primary', session_data: session });
+        },
+        async remove() {
+            await supabase
+                .from('whatsapp_sessions')
+                .delete()
+                .eq('id', 'primary');
+        }
+    },
+    puppeteer: { 
+        headless: true,
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
+    }
 });
 
-// ====================== EVENTOS DO BOT (ATUALIZADOS) ======================
+// ====================== EVENTOS DO BOT ======================
 client.on('qr', qr => {
     log('QR Code gerado - Escaneie para autenticar');
     qrcode.generate(qr, { small: true });
-    fs.writeFileSync('qrcode.txt', qr);
 });
 
 client.on('authenticated', () => {
     log('Autenticação realizada com sucesso');
-    if (fs.existsSync('qrcode.txt')) fs.unlinkSync('qrcode.txt');
 });
 
 client.on('auth_failure', msg => {
@@ -136,7 +130,7 @@ client.on('ready', () => {
     log('✅ Bot está online e operacional!');
 });
 
-// ====================== FUNÇÕES DO MENU (MANTIDAS COM MELHORIAS) ======================
+// ====================== FUNÇÕES DO MENU ======================
 async function showMenu(msg) {
     await msg.reply(
         `Como posso ajudar?\n\n` +
@@ -257,7 +251,7 @@ async function handleMenu(msg, text, phone, name) {
     }
 }
 
-// ====================== TRATAMENTO DE MENSAGENS (ATUALIZADO) ======================
+// ====================== TRATAMENTO DE MENSAGENS ======================
 async function handleMessage(msg) {
     if (msg.from.endsWith('@g.us')) return;
 
@@ -273,7 +267,7 @@ async function handleMessage(msg) {
     // COMANDOS ADMIN
     if (numero === ADMIN_NUMBER.replace('+', '')) {
         if (text === '!clientes') {
-            const lista = filtrarClientes('todos');
+            const lista = await filtrarClientes('todos');
             await msg.reply(`📋 *TODOS OS CLIENTES (${lista.length})*\n\n${
                 lista.map(c => `👤 ${c.nome} - ${c.numero}`).join('\n') || "Nenhum cliente."
             }`);
@@ -283,7 +277,7 @@ async function handleMessage(msg) {
             const periodosValidos = ['hoje', 'ontem', 'semana', 'mes', '3meses', '6meses', '1ano'];
             
             if (periodosValidos.includes(periodo)) {
-                const lista = filtrarClientes(periodo);
+                const lista = await filtrarClientes(periodo);
                 await msg.reply(`📋 *CLIENTES (${periodo.toUpperCase()}) - ${lista.length}*\n\n${
                     lista.map(c => `👤 ${c.nome} - ${c.numero}`).join('\n') || "Nenhum cliente."
                 }`);
@@ -373,7 +367,6 @@ async function handleMessage(msg) {
                     await showMenu(msg);
                 }
             }
-            // Não responde a outras mensagens
             break;
             
         default:
@@ -388,7 +381,7 @@ async function handleMessage(msg) {
 client.on('message', async msg => {
     try {
         const timeoutPromise = new Promise((_, reject) => 
-            setTimeout(() => reject(new Error('Timeout')), 10000));
+            setTimeout(() => reject(new Error('Timeout')), 10000);
 
         await Promise.race([
             handleMessage(msg),
@@ -432,10 +425,6 @@ setInterval(() => {
 // ====================== INICIALIZAÇÃO ======================
 async function startBot() {
     try {
-        if (!fs.existsSync(SESSION_DIR)) {
-            fs.mkdirSync(SESSION_DIR, { recursive: true });
-        }
-
         const PORT = process.env.PORT || 3000;
         app.listen(PORT, () => {
             log(`Health check rodando na porta ${PORT}`);
