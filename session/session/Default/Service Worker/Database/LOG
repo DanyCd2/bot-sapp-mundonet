@@ -1,3 +1,2 @@
-2025/03/30-23:44:31.408 3e44 Reusing MANIFEST C:\Users\pc\bot-megas\session\session\Default\Service Worker\Database/MANIFEST-000001
-2025/03/30-23:44:31.409 3e44 Recovering log #3
-2025/03/30-23:44:31.410 3e44 Reusing old log C:\Users\pc\bot-megas\session\session\Default\Service Worker\Database/000003.log 
+2025/03/31-08:35:10.981 34c4 Creating DB C:\Users\pc\bot-megas\session\session\Default\Service Worker\Database since it was missing.
+2025/03/31-08:35:10.989 34c4 Reusing MANIFEST C:\Users\pc\bot-megas\session\session\Default\Service Worker\Database/MANIFEST-000001
