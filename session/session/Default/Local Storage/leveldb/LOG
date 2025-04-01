@@ -1,6 +1,3 @@
-2025/03/31-21:43:35.012 ba4 Reusing MANIFEST C:\Users\pc\bot-megas\session\session\Default\Local Storage\leveldb/MANIFEST-000001
-2025/03/31-21:43:35.013 ba4 Recovering log #3
-2025/03/31-21:43:35.014 ba4 Reusing old log C:\Users\pc\bot-megas\session\session\Default\Local Storage\leveldb/000003.log 
-2025/03/31-21:45:36.232 2564 Level-0 table #5: started
-2025/03/31-21:45:36.235 2564 Level-0 table #5: 16484 bytes OK
-2025/03/31-21:45:36.237 2564 Delete type=0 #3
+2025/04/01-20:11:35.137 fbc Reusing MANIFEST C:\Users\pc\bot-megas\session\session\Default\Local Storage\leveldb/MANIFEST-000001
+2025/04/01-20:11:35.138 fbc Recovering log #7
+2025/04/01-20:11:35.138 fbc Reusing old log C:\Users\pc\bot-megas\session\session\Default\Local Storage\leveldb/000007.log 
