@@ -590,10 +590,14 @@ setInterval(() => {
     }
 }, 3600000);
 
-
 // ====================== INICIALIZAÇÃO ======================
 async function startBot() {
     try {
+        // Adicione a rota ANTES do app.listen()
+        app.get('/', (req, res) => {
+            res.send('Mundo Net Bot - Online ✅');
+        });
+
         const PORT = process.env.PORT || 3000;
         app.listen(PORT, () => log(`Servidor rodando na porta ${PORT}`));
 
@@ -623,7 +627,7 @@ async function startBot() {
         log(`Erro na inicialização: ${error}`);
         process.exit(1);
     }
-}
+} // <-- Fechamento correto da função startBot() aqui
 
 // Inicia o bot
 startBot();
