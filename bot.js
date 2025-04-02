@@ -16,6 +16,9 @@ const ADMIN_NUMBER = '+258855337491';
 const imagePath = path.join(__dirname, 'p.png');
 const users = {};
 const backupPath = path.join(__dirname, 'backups');
+const DIAS_INATIVIDADE = 14;
+const COMANDOS_PERMITIDOS = ['menu', 'auto', 'dex'];
+const mensagensRespondidas = new Set();
 
 // Criar pasta de backups se não existir
 if (!fs.existsSync(backupPath)) {
@@ -265,6 +268,60 @@ module.exports = {
     handleMigracaoPeriodo,
     handleVerificarDuplicados
 };
+
+// Função principal de tratamento de mensagens
+async function handleMessage(msg) {
+    try {
+        const mensagemId = msg.id._serialized;
+        const numero = msg.from;
+        const corpoMsg = msg.body.toLowerCase();
+        
+        // Evita duplicação
+        if (mensagensRespondidas.has(mensagemId)) return;
+        mensagensRespondidas.add(mensagemId);
+        
+        // Verifica se deve responder
+        const clienteInativo = await verificarInatividadeCliente(numero);
+        const comandoPermitido = COMANDOS_PERMITIDOS.includes(corpoMsg);
+        
+        if (!clienteInativo && !comandoPermitido) {
+            log(`Mensagem ignorada de ${numero} (cliente ativo)`);
+            return;
+        }
+        
+        // Lógica de resposta
+        if (comandoPermitido) {
+            await responderComando(corpoMsg, msg);
+        } else {
+            await responderMensagemPadrao(msg);
+        }
+        
+    } catch (error) {
+        log(`Erro no handleMessage: ${error.message}`);
+    }
+}
+
+async function verificarInatividadeCliente(numero) {
+    const { data } = await supabase
+        .from('clientes')
+        .select('ultima_interacao')
+        .eq('numero', numero)
+        .single();
+
+    const hoje = new Date();
+    const ultimaInteracao = data ? new Date(data.ultima_interacao) : new Date(0);
+    const diffDias = Math.floor((hoje - ultimaInteracao) / (1000 * 60 * 60 * 24));
+
+    // Atualiza a última interação
+    await supabase
+        .from('clientes')
+        .upsert({
+            numero: numero,
+            ultima_interacao: hoje.toISOString()
+        }, { onConflict: 'numero' });
+
+    return diffDias >= DIAS_INATIVIDADE;
+}
 
 
 // ====================== CONFIGURAÇÃO DO BOT ======================

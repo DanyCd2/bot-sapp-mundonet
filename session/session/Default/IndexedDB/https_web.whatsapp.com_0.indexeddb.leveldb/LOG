@@ -1,69 +1,21 @@
-2025/04/01-20:11:35.741 2fc4 Reusing MANIFEST C:\Users\pc\bot-megas\session\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2025/04/01-20:11:35.741 2fc4 Recovering log #315
-2025/04/01-20:11:35.925 2fc4 Reusing old log C:\Users\pc\bot-megas\session\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/000315.log 
-2025/04/01-20:11:38.313 2fc4 Level-0 table #323: started
-2025/04/01-20:11:38.352 2fc4 Level-0 table #323: 1394079 bytes OK
-2025/04/01-20:11:38.354 2fc4 Delete type=0 #315
-2025/04/01-20:11:38.355 2fc4 Manual compaction at level-0 from '\x00-\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00.\x00\x00\x00' @ 0 : 0; will stop at (end)
-2025/04/01-20:11:41.864 2fc4 Compacting 1@1 + 4@2 files
-2025/04/01-20:11:42.080 2fc4 Generated table #324@1: 73521 keys, 2250213 bytes
-2025/04/01-20:11:42.208 2fc4 Generated table #325@1: 37021 keys, 2200488 bytes
-2025/04/01-20:11:42.331 2fc4 Generated table #326@1: 17627 keys, 2205000 bytes
-2025/04/01-20:11:42.468 2fc4 Generated table #327@1: 63708 keys, 2129438 bytes
-2025/04/01-20:11:42.468 2fc4 Compacted 1@1 + 4@2 files => 8785139 bytes
-2025/04/01-20:11:42.469 2fc4 compacted to: files[ 0 0 4 0 0 0 0 ]
-2025/04/01-20:11:42.470 2fc4 Delete type=2 #317
-2025/04/01-20:11:42.470 2fc4 Delete type=2 #318
-2025/04/01-20:11:42.470 2fc4 Delete type=2 #319
-2025/04/01-20:11:42.470 2fc4 Delete type=2 #320
-2025/04/01-20:11:42.470 2fc4 Delete type=2 #323
-2025/04/01-20:32:31.618 3180 Level-0 table #329: started
-2025/04/01-20:32:31.665 3180 Level-0 table #329: 1112462 bytes OK
-2025/04/01-20:32:31.667 3180 Delete type=0 #322
-2025/04/01-20:32:41.682 31cc Compacting 1@1 + 4@2 files
-2025/04/01-20:32:41.827 31cc Generated table #330@1: 75484 keys, 2252500 bytes
-2025/04/01-20:32:41.921 31cc Generated table #331@1: 37676 keys, 2200964 bytes
-2025/04/01-20:32:42.008 31cc Generated table #332@1: 16511 keys, 2188999 bytes
-2025/04/01-20:32:42.129 31cc Generated table #333@1: 60912 keys, 2217934 bytes
-2025/04/01-20:32:42.141 31cc Generated table #334@1: 6254 keys, 134000 bytes
-2025/04/01-20:32:42.141 31cc Compacted 1@1 + 4@2 files => 8994397 bytes
-2025/04/01-20:32:42.143 31cc compacted to: files[ 0 0 5 0 0 0 0 ]
-2025/04/01-20:32:42.143 31cc Delete type=2 #324
-2025/04/01-20:32:42.143 31cc Delete type=2 #325
-2025/04/01-20:32:42.143 31cc Delete type=2 #326
-2025/04/01-20:32:42.143 31cc Delete type=2 #327
-2025/04/01-20:32:42.143 31cc Delete type=2 #329
-2025/04/01-20:58:28.175 3048 Level-0 table #336: started
-2025/04/01-20:58:28.214 3048 Level-0 table #336: 1074709 bytes OK
-2025/04/01-20:58:28.215 3048 Delete type=0 #328
-2025/04/01-20:58:28.762 3048 Compacting 1@1 + 5@2 files
-2025/04/01-20:58:28.931 3048 Generated table #337@1: 76973 keys, 2254059 bytes
-2025/04/01-20:58:29.041 3048 Generated table #338@1: 38146 keys, 2202493 bytes
-2025/04/01-20:58:29.119 3048 Generated table #339@1: 13922 keys, 2185119 bytes
-2025/04/01-20:58:29.246 3048 Generated table #340@1: 58224 keys, 2219145 bytes
-2025/04/01-20:58:29.268 3048 Generated table #341@1: 13374 keys, 284420 bytes
-2025/04/01-20:58:29.268 3048 Compacted 1@1 + 5@2 files => 9145236 bytes
-2025/04/01-20:58:29.269 3048 compacted to: files[ 0 0 5 0 0 0 0 ]
-2025/04/01-20:58:29.270 3048 Delete type=2 #330
-2025/04/01-20:58:29.270 3048 Delete type=2 #331
-2025/04/01-20:58:29.270 3048 Delete type=2 #332
-2025/04/01-20:58:29.270 3048 Delete type=2 #333
-2025/04/01-20:58:29.270 3048 Delete type=2 #334
-2025/04/01-20:58:29.270 3048 Delete type=2 #336
-2025/04/01-21:12:11.185 17f0 Level-0 table #343: started
-2025/04/01-21:12:11.232 17f0 Level-0 table #343: 1197031 bytes OK
-2025/04/01-21:12:11.233 17f0 Delete type=0 #335
-2025/04/01-21:12:30.705 17f0 Compacting 1@1 + 5@2 files
-2025/04/01-21:12:30.876 17f0 Generated table #344@1: 78173 keys, 2255047 bytes
-2025/04/01-21:12:30.980 17f0 Generated table #345@1: 39906 keys, 2204358 bytes
-2025/04/01-21:12:31.049 17f0 Generated table #346@1: 11888 keys, 2179793 bytes
-2025/04/01-21:12:31.176 17f0 Generated table #347@1: 50491 keys, 2218498 bytes
-2025/04/01-21:12:31.216 17f0 Generated table #348@1: 25248 keys, 534846 bytes
-2025/04/01-21:12:31.216 17f0 Compacted 1@1 + 5@2 files => 9392542 bytes
-2025/04/01-21:12:31.217 17f0 compacted to: files[ 0 0 5 0 0 0 0 ]
-2025/04/01-21:12:31.217 17f0 Delete type=2 #337
-2025/04/01-21:12:31.217 17f0 Delete type=2 #338
-2025/04/01-21:12:31.217 17f0 Delete type=2 #339
-2025/04/01-21:12:31.217 17f0 Delete type=2 #340
-2025/04/01-21:12:31.217 17f0 Delete type=2 #341
-2025/04/01-21:12:31.217 17f0 Delete type=2 #343
+2025/04/02-09:11:46.951 218c Reusing MANIFEST C:\Users\pc\bot-megas\session\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2025/04/02-09:11:46.952 218c Recovering log #364
+2025/04/02-09:11:47.143 218c Reusing old log C:\Users\pc\bot-megas\session\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/000364.log 
+2025/04/02-09:11:49.772 39e8 Level-0 table #373: started
+2025/04/02-09:11:49.825 39e8 Level-0 table #373: 1462646 bytes OK
+2025/04/02-09:11:49.826 39e8 Delete type=0 #364
+2025/04/02-09:11:49.827 39e8 Manual compaction at level-0 from '\x00/\x00\x00\x00' @ 72057594037927935 : 1 .. '\x000\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/04/02-09:11:53.345 30f4 Compacting 1@1 + 5@2 files
+2025/04/02-09:11:53.680 30f4 Generated table #374@1: 82188 keys, 2257556 bytes
+2025/04/02-09:11:53.815 30f4 Generated table #375@1: 41904 keys, 2219380 bytes
+2025/04/02-09:11:53.887 30f4 Generated table #376@1: 8694 keys, 2168601 bytes
+2025/04/02-09:11:54.029 30f4 Generated table #377@1: 34101 keys, 2212677 bytes
+2025/04/02-09:11:54.121 30f4 Generated table #378@1: 50737 keys, 1072470 bytes
+2025/04/02-09:11:54.121 30f4 Compacted 1@1 + 5@2 files => 9930684 bytes
+2025/04/02-09:11:54.122 30f4 compacted to: files[ 0 0 5 0 0 0 0 ]
+2025/04/02-09:11:54.122 30f4 Delete type=2 #366
+2025/04/02-09:11:54.123 30f4 Delete type=2 #367
+2025/04/02-09:11:54.123 30f4 Delete type=2 #368
+2025/04/02-09:11:54.123 30f4 Delete type=2 #369
+2025/04/02-09:11:54.123 30f4 Delete type=2 #370
+2025/04/02-09:11:54.123 30f4 Delete type=2 #373
